@@ -23,3 +23,23 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm test
+
+  deploy-staging:
+    needs: ci
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - run: npm ci --omit=dev
+
+      - uses: azure/webapps-deploy@v3
+        with:
+          app-name: deployement-practice
+          slot-name: staging
+          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE_STAGING }}
+          package: .
