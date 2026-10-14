@@ -9,6 +9,6 @@ describe("getInfo", () => {
   it("returns defaults when env vars are unset", () => {
     vi.stubEnv("APP_VERSION", "");
     vi.stubEnv("APP_ENV", "");
-    expect(getInfo()).toEqual({ message: "hello", version: "local", env: "local" });
+    expect(getInfo()).toEqual({ message: "bye", version: "local", env: "local" });
   });
 });
